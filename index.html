@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My GitHub Page</title>
+</head>
+<body>
+  MTH4000 Programming in Python I
+Week 5 Lab Workbook
+Dr Matthew Lewis and Prof. Thomas Prellberg 
+Exercise 1: Logical Operators 
+In the lecture notes, we saw logical operators that acted on pairs of boolean values to produce other booleans. One such operator was and.
+
+Since there are only two distinct boolean values (True and False), and there are two arguments in each call using the and operator, there will be 2×2=4
+ combinations that define the effect of this operator. Compute and print the truth value of these four combinations.
+
+​
+We can collate this data into a truth table. This effectively gives a definition of the and operator.
+
+A	B	B and A
+True	True	True
+True	False	False
+False	True	False
+False	False	False
+The implies operator (sometimes denoted with the symbol ⇒ ) is not implemented in a standard Python environment. It can be defined with the following truth table:
+
+A	B	A ⇒ B
+True	True	True
+True	False	False
+False	True	True
+False	False	True
+Using built-in logical operators, verify that for any boolean values A and B, the statement A ⇒ B is equivalent to the statement B or not A.
+
+​
+Use these operations to construct our own function implies that will accept any two boolean values, A and B, and return the boolean value of the statement A ⇒ B.
+
+​
+Test this function by calling it for all four combinations of boolean values that can be returned to A and B.
+
+​
+Now write a function not_implies that, for any booleans A and B, returns the negation of the call implies(A, B).
+
+​
+Test this function with all four combinations of inputs.
+
+​
+We now wish to test out these function by applying them to mathematical results (results that use implications).
+
+For integers 𝑎,𝑚∈ℤ
+, we say that 𝑎
+ divides 𝑚
+ (and write 𝑎|𝑚
+) if there exists some 𝑘∈ℤ
+ such that 𝑚=𝑘𝑎
+.
+
+Write a function divides which accepts two integers, a and m, and returns a boolean corresponding to the truth value of the statement 'a divides m'.
+
+​
+Test that this function works by evaluating it for one combinations of integers that results in True being returned, and one combination that gives False.
+
+​
+Observe the following result:
+
+Theorem: Let 𝑎,𝑏,𝑚,𝑛∈ℤ
+.
+If 𝑎|𝑚
+ and 𝑏|𝑛
+, then 𝑎𝑏|𝑚𝑛
+.
+
+According to this result, the statement
+
+If 7 divides 14 and 2 divides 4, then 14 divides 56.
+is true, as is the statement
+
+If 7 divides 14 and 2 divides 3, then 14 divides 42.
+Using the implies and divides functions defined above, write a function test_theorem that accepts four integers, a, b, m and n, and returns the boolean value of the statement given in the above theorem.
+
+​
+Test this function by calling it for a few well-chosen examples.
+
+​
+Now consider the following claim, which is different from the result shown above:
+
+Claim: Let 𝑎,𝑏,𝑛∈ℤ
+.
+If 𝑎|𝑛
+ and 𝑏|𝑛
+, then 𝑎𝑏|𝑛
+.
+
+Write a function test_claim that accepts three integers, a, b and n, and returns the boolean value of the statement given in the above claim.
+
+​
+Find at least one combination of integers a, b and n such that the function test_claim returns a boolean value of False.
+
+​
+Since this function returns the truth value of the above claim (for the called values of 𝑎
+, 𝑏
+ and 𝑛
+), this False output disproves the statement.
+
+Exercise 2: Roots of Cubics 
+The discriminant of the cubic polynomial given by 𝑝(𝑥)=𝑎𝑥3+𝑏𝑥2+𝑐𝑥+𝑑
+ is
+
+Δ=𝑏2𝑐2−4𝑎𝑐3−4𝑏3𝑑−27𝑎2𝑑2+18𝑎𝑏𝑐𝑑.
+
+The discriminant gives us information about the roots of 𝑝
+:
+
+if Δ>0
+, then 𝑝
+ has 3 distinct real roots;
+if Δ<0
+, then 𝑝
+ has 2 distinct complex roots and 1 real root;
+if Δ=0
+, then 𝑝
+ has 3 real roots, at least 2 of which are the same.
+Any cubic polynomial 𝑝(𝑥)=𝑎𝑥3+𝑏𝑥2+𝑐𝑥+𝑑
+ can be represented by its coefficients 𝑎,𝑏,𝑐,𝑑
+. For example, the polynomial 𝑝(𝑥)=𝑥3−𝑥+1
+ can be represented by the values 1,0,−1,1
+.
+
+Write a function has_three_real_roots that accepts four floats a, b, c and d that are representative of the coefficients of a cubic polynomial, and returns a value of True if the corresponding cubic has 3 distinct real roots, and False otherwise.
+
+​
+Test this function on the polynomials
+
+𝑥3
+𝑥(1−𝑥)2
+𝑥3−𝑥+1
+𝑥3−𝑥
+​
+Exercise 3: Moon-te Carlo Methods 
+A Monte Carlo method is an algorithm that approximates the area of a region by taking a large sample of uniformly distributed points over an area that covers that region, and evaluating the proportion of points that fall inside it.
+
+For instance, consider the region bounded by the following condition:
+
+𝑥2+𝑦2≤1.
+
+This region is shown shaded in white in the plot below.
+
+import numpy as np
+from matplotlib import pyplot as plt
+​
+x = np.linspace(-1, 1, 100)
+y1 = (1-x**2)**0.5
+y2 = -(1-x**2)**0.5
+​
+plt.plot(x, y1, color = 'white')
+plt.plot(x, y2, color = 'white')
+ax = plt.gca()
+ax.axis('equal')
+ax.set_facecolor('black')
+ax.fill_between(x, y1, y2, facecolor = 'white')
+plt.show()
+It should be clear that this boundary is a circle of radius 1
+, and so a Monte Carlo method should return a value approximately equal to 𝜋
+.
+
+The region is covered by the set [−1,1]×[−1,1]
+, which is a square of area 4
+.
+
+Therefore, if we take a large number of uniformly distributed points over the square [−1,1]×[−1,1]
+, the proportion of the points that lie inside the region should be approximately equal to a quarter of the region's area.
+
+from random import uniform
+​
+# Create a list of 10000 points (x,y) that are uniformly distributed
+# in the square [-1,1]*[-1,1]
+points = [(uniform(-1,1),uniform(-1,1)) for i in range(10000)]
+Define a function inside_circle that accepts a tuple x corresponding to the coordinates of a point in the set [−1,1]×[−1,1]
+, and returns 1 if the point x lies inside the circle 𝑥2+𝑦2=1
+, and 0 otherwise.
+
+​
+Use this function to find the proportion of points inside the list points that lie inside the circle 𝑥2+𝑦2=1
+, then use this proportion to find an estimate for 𝜋
+.
+
+​
+Now consider the region bounded by the conditions:
+
+𝑥2+𝑦2and3𝑥2+𝑦2≤9≥9
+
+This region is shown shaded in white in the plot below.
+
+y=np.linspace(-3,3,100)
+x1=-(9-y**2)**0.5
+x2=-(1/3**0.5)*(9-y**2)**0.5
+​
+plt.plot(x1,y,color='white')
+plt.plot(x2,y,color='white')
+ax=plt.gca()
+ax.axis('equal')
+ax.set_facecolor('black')
+ax.fill_between(x1,y,facecolor='white')
+ax.fill_between(x2,y,facecolor='black',edgecolor='black')
+plt.show()
+In the box below, define a new list points containing 10000 uniformly distributed points that cover the rectangle [−3,0]×[−3,3]
+.
+
+Also, define a function inside_crescent that accepts a point x in this rectangle, and returns a value of 1 if x lies inside the crescent, and 0
+ otherwise.
+
+​
+Once you have done this, apply inside_crescent to the list points to find an approximation of the area enclosed by the crescent.
+
+​
+Note that for any ellipse given by
+
+(𝑥𝑎)2+(𝑦𝑏)2=1,
+
+the enclosed area is equal to 𝜋𝑎𝑏
+.
+
+We can therefore evaluate the exact area of the above crescent to be
+
+3𝜋2(3−3⎯⎯√).
+
+Compute this value in the box below to determine whether it closely matches the value you computed above.
+
+​
+Feedback 
+Attempt all of these questions during Week 5. This worksheet will be discussed in detail on a Lab Walkthrough video to be posted to QMplus at the end of the week.
+
+If you have any problems or questions, or simply you would like some feedback, then you can:
+
+Ask the tutors present in your IT Lab sessions.
+
+Ask the Student Forum on the module's QM Plus page.
+
+Email the lecturers for assistance.
+</body>
+</html>
